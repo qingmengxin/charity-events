@@ -1,0 +1,90 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Event Details - CityCharity</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="nav-area"></div>
+  <div class="container">
+    <div id="event-detail" class="event-detail">
+      <div class="card">Loading event details...</div>
+    </div>
+
+    <div class="footer">Built for PROG2002 — demonstration site.</div>
+  </div>
+
+  <script src="/nav.js"></script>
+  <script>
+    renderNav();
+
+    function getEventIdFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      return params.get('id');
+    }
+
+    async function loadEventDetail() {
+      const eventId = getEventIdFromUrl();
+      const detailContainer = document.getElementById('event-detail');
+
+      if (!eventId) {
+        detailContainer.innerHTML = '<div class="card">Invalid event ID.</div>';
+        return;
+      }
+
+      try {
+        const res = await fetch(`/api/events/${eventId}`);
+        if (!res.ok) {
+          if (res.status === 404) throw new Error('Event not found');
+          throw new Error('Failed to load details');
+        }
+
+        const event = await res.json();
+        const startDt = new Date(event.start_datetime).toLocaleString();
+        const endDt = new Date(event.end_datetime).toLocaleString();
+
+        const priceNum = Number(event.ticket_price) || 0;
+        const price = priceNum > 0 ? `\$${priceNum.toFixed(2)}` : 'Free';
+        const goalAmount = Number(event.goal_amount) || 0;
+        const raisedAmount = Number(event.raised_amount) || 0;
+        const progressPercent = goalAmount > 0 ? Math.min((raisedAmount / goalAmount) * 100, 100) : 0;
+
+        // 渲染详情（删除所有图片相关代码）
+        detailContainer.innerHTML = `
+          <div class="card">
+            <h2>${event.name}</h2>
+            
+            <div class="event-meta">
+              <div><strong>Category:</strong> ${event.category || 'N/A'}</div>
+              <div><strong>Organiser:</strong> ${event.organisation || 'N/A'}</div>
+              <div><strong>Time:</strong> ${startDt} to ${endDt}</div>
+              <div><strong>Location:</strong> ${event.location || 'N/A'}, ${event.city || 'N/A'}</div>
+              <div><strong>Price:</strong> ${price}</div>
+              <div><strong>Status:</strong> ${event.status === 'active' ? 'Active' : 'Past'}</div>
+              <div><strong>Contact:</strong> ${event.contact_email || 'N/A'} | ${event.contact_phone || 'N/A'}</div>
+            </div>
+
+            <h4>Description</h4>
+            <p>${event.full_description || 'No detailed description available.'}</p>
+
+            <h4>Fundraising Progress</h4>
+            <p>Goal: \$${goalAmount.toFixed(2)} | Raised: \$${raisedAmount.toFixed(2)}</p>
+            <div style="background:#eee; height:8px; border-radius:4px; margin:10px 0;">
+              <div style="background:#2ecc71; height:100%; width:${progressPercent}%; border-radius:4px;"></div>
+            </div>
+
+            <a class="btn" href="/index.html">Back to Events</a>
+          </div>
+        `;
+
+      } catch (err) {
+        console.error('Error loading details:', err);
+        detailContainer.innerHTML = `<div class="card">Error: ${err.message}</div>`;
+      }
+    }
+
+    loadEventDetail();
+  </script>
+</body>
+</html>

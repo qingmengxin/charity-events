@@ -1,0 +1,74 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>CityCharity - Home</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="nav-area"></div>
+  <div class="container">
+    <section class="card">
+      <h2>Welcome to CityCharity</h2>
+      <p>Our mission: Support local communities through events that raise funds and awareness. Explore upcoming events below and click an event to see details or register.</p>
+    </section>
+
+    <section class="card">
+      <h3>Upcoming Events</h3>
+      <div id="events" class="event-list small">Loading events...</div>
+    </section>
+
+    <section id="contact" class="card">
+      <h3>Contact</h3>
+      <p>Email: info@citycharity.com | Phone: 012-345-6789</p>
+    </section>
+
+    <div class="footer">Built for PROG2002 — demonstration site.</div>
+  </div>
+
+  <script src="/nav.js"></script>
+  <script>
+    renderNav();
+
+    async function loadUpcoming() {
+      const list = document.getElementById('events');
+      try {
+        const res = await fetch('/api/events');
+        if (!res.ok) throw new Error('Failed to load events');
+        
+        const events = await res.json();
+        if (!events.length) {
+          list.innerHTML = '<div class="small">No upcoming events found.</div>';
+          return;
+        }
+
+        // 渲染活动列表（删除所有图片相关代码）
+        list.innerHTML = events.map(ev => {
+          const startDt = new Date(ev.start_datetime).toLocaleString();
+          const priceNum = Number(ev.ticket_price) || 0;
+          const price = priceNum > 0 ? `\$${priceNum.toFixed(2)}` : 'Free';
+
+          // 核心：删除<img>标签相关逻辑
+          return `
+            <div class="card">
+              <h4>${ev.name}</h4>
+              <div class="small">${ev.category} • ${ev.city} • ${startDt}</div>
+              <p class="small">${ev.short_description || 'No description available.'}</p>
+              <div>
+                <span class="badge">${price}</span>
+                <a class="btn" href="/event.html?id=${ev.event_id}">View details</a>
+              </div>
+            </div>
+          `;
+        }).join('');
+
+      } catch (err) {
+        console.error('Error loading events:', err);
+        list.innerHTML = '<div class="small">Error loading events. Try again later.</div>';
+      }
+    }
+
+    loadUpcoming();
+  </script>
+</body>
+</html>
