@@ -1,0 +1,113 @@
+<!doctype html>
+<html>
+<head>
+  <meta charset="utf-8" />
+  <title>Search Events</title>
+  <link rel="stylesheet" href="/styles.css" />
+</head>
+<body>
+  <div id="nav-area"></div>
+  <div class="container">
+    <section class="card">
+      <h2>Search Events</h2>
+      <form id="search-form">
+        <div class="form-row">
+          <label>Date: <input type="date" id="date" name="date"></label>
+        </div>
+        <div class="form-row">
+          <label>City: <input type="text" id="city" placeholder="e.g., Singapore"></label>
+        </div>
+        <div class="form-row">
+          <label>Category:
+            <select id="category">
+              <option value="">-- Any --</option>
+            </select>
+          </label>
+        </div>
+        <div class="form-row">
+          <button type="submit" class="btn">Search</button>
+          <button type="button" id="clear-btn" class="btn" style="background:#777;">Clear Filters</button>
+        </div>
+      </form>
+    </section>
+
+    <section class="card">
+      <h3>Results</h3>
+      <div id="results" class="event-list small">Enter filters and click Search.</div>
+    </section>
+  </div>
+
+  <script src="/nav.js"></script>
+  <script>
+    renderNav();
+
+    async function loadCategories() {
+      const sel = document.getElementById('category');
+      try {
+        const res = await fetch('/api/categories');
+        const cats = await res.json();
+        cats.forEach(c => {
+          const opt = document.createElement('option');
+          opt.value = c.category_id;
+          opt.textContent = c.name;
+          sel.appendChild(opt);
+        });
+      } catch (err) {
+        console.error('Categories load error', err);
+      }
+    }
+
+    function clearForm() {
+      document.getElementById('date').value = '';
+      document.getElementById('city').value = '';
+      document.getElementById('category').value = '';
+      document.getElementById('results').innerHTML = 'Enter filters and click Search.';
+    }
+
+    document.getElementById('clear-btn').addEventListener('click', clearForm);
+
+    document.getElementById('search-form').addEventListener('submit', async (e) => {
+      e.preventDefault();
+      const date = document.getElementById('date').value;
+      const city = document.getElementById('city').value.trim();
+      const category_id = document.getElementById('category').value;
+
+      const params = new URLSearchParams();
+      if (date) params.append('date', date);
+      if (city) params.append('city', city);
+      if (category_id) params.append('category_id', category_id);
+
+      const results = document.getElementById('results');
+      results.innerHTML = 'Searching...';
+      try {
+        const res = await fetch('/api/search?' + params.toString());
+        if (!res.ok) throw new Error('Search failed');
+        const rows = await res.json();
+        if (!rows.length) {
+          results.innerHTML = '<div class="small">No matching events found.</div>';
+          return;
+        }
+        results.innerHTML = rows.map(ev => {
+          const dt = new Date(ev.start_datetime).toLocaleString();
+          const price = ev.ticket_price > 0 ? `\$${ev.ticket_price}` : 'Free';
+          return `
+            <div class="card">
+              <h4>${ev.name}</h4>
+              <div class="small">${ev.category_name} — ${ev.city} — ${dt}</div>
+              <p class="small">${ev.short_description || ''}</p>
+              <div>
+                <span class="badge">${price}</span>
+                <a class="btn" href="/event.html?id=${ev.event_id}">View details</a>
+              </div>
+            </div>`;
+        }).join('');
+      } catch (err) {
+        console.error(err);
+        results.innerHTML = '<div class="small">Error during search.</div>';
+      }
+    });
+
+    loadCategories();
+  </script>
+</body>
+</html>

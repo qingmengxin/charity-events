@@ -1,0 +1,163 @@
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: Arial, sans-serif;
+}
+
+body {
+  background-color: #f5f5f5;
+  color: #333;
+  line-height: 1.6;
+}
+
+/* 容器：居中布局 */
+.container {
+  max-width: 1200px;
+  margin: 20px auto;
+  padding: 0 20px;
+}
+
+/* 卡片样式：活动、导航、板块通用 */
+.card {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  padding: 20px;
+  margin-bottom: 20px;
+}
+
+#nav-area {
+  /* 醒目主色：选用高饱和度蓝色（视觉冲击力强，且符合公益类网站调性） */
+  background: #2563eb; 
+  /* 增加底部阴影，让导航栏从页面中"浮起来"，更显眼 */
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); 
+  color: white;
+  /* 适当增加上下内边距，让导航栏更饱满，避免过于紧凑 */
+  padding: 18px 0; 
+  /* 固定在顶部，滚动时也能看到，强化导航存在感 */
+  position: sticky; 
+  top: 0;
+  z-index: 999; /* 确保导航栏在最上层，不被其他内容遮挡 */
+}
+
+.nav-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+/* 导航标题：加粗放大，突出品牌感 */
+.nav-logo h3 {
+  font-size: 22px; /* 比默认字体大，更醒目 */
+  font-weight: 700; /* 加粗 */
+  letter-spacing: 0.5px; /* 轻微拉开字母间距，提升精致感 */
+}
+
+/* 导航链接： hover时强化反馈，让交互更明显 */
+.nav-links a {
+  color: white;
+  text-decoration: none;
+  margin-left: 25px; /* 增加链接间距，避免拥挤 */
+  font-size: 15px; /* 放大字体，提升可读性 */
+  font-weight: 500; /* 轻微加粗，比普通文本醒目 */
+  transition: all 0.2s ease; /* 增加过渡效果，交互更流畅 */
+}
+
+/* 鼠标 hover 链接时：背景+颜色变化，反馈更强烈 */
+.nav-links a:hover {
+  text-decoration: none; /* 取消默认下划线，改用背景色突出 */
+  background: rgba(255, 255, 255, 0.2); /* 白色半透明背景 */
+  padding: 6px 12px; /* 增加内边距，形成"按钮感" */
+  border-radius: 4px; /* 圆角优化，更柔和 */
+}
+
+/* 活动列表样式 */
+.event-list {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 20px;
+}
+
+.event-list .card img {
+  width: 100%;
+  height: 180px;
+  object-fit: cover;
+  border-radius: 4px;
+  margin-bottom: 15px;
+}
+
+.event-list .card h4 {
+  margin-bottom: 10px;
+  color: #2c3e50;
+}
+
+.small {
+  font-size: 13px;
+  color: #666;
+  margin-bottom: 10px;
+}
+
+/* 按钮和徽章样式 */
+.btn {
+  display: inline-block;
+  background: #3498db;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 4px;
+  text-decoration: none;
+  font-size: 14px;
+  margin-top: 10px;
+}
+
+.btn:hover {
+  background: #2980b9;
+}
+
+.badge {
+  display: inline-block;
+  background: #2ecc71;
+  color: white;
+  padding: 4px 8px;
+  border-radius: 4px;
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+/* 详情页样式 */
+.event-detail {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.event-detail img {
+  width: 100%;
+  height: 400px;
+  object-fit: cover;
+  border-radius: 8px;
+  margin-bottom: 20px;
+}
+
+.event-meta {
+  margin: 15px 0;
+  padding: 10px 0;
+  border-top: 1px solid #eee;
+  border-bottom: 1px solid #eee;
+}
+
+.event-meta div {
+  margin: 8px 0;
+}
+
+/* 页脚样式 */
+.footer {
+  text-align: center;
+  color: #666;
+  font-size: 12px;
+  margin: 30px 0;
+  padding-top: 20px;
+  border-top: 1px solid #eee;
+}
