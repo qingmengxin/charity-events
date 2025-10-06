@@ -50,7 +50,6 @@
         const raisedAmount = Number(event.raised_amount) || 0;
         const progressPercent = goalAmount > 0 ? Math.min((raisedAmount / goalAmount) * 100, 100) : 0;
 
-        // 渲染详情（删除所有图片相关代码）
         detailContainer.innerHTML = `
           <div class="card">
             <h2>${event.name}</h2>

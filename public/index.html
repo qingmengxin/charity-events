@@ -42,13 +42,11 @@
           return;
         }
 
-        // 渲染活动列表（删除所有图片相关代码）
         list.innerHTML = events.map(ev => {
           const startDt = new Date(ev.start_datetime).toLocaleString();
           const priceNum = Number(ev.ticket_price) || 0;
           const price = priceNum > 0 ? `\$${priceNum.toFixed(2)}` : 'Free';
 
-          // 核心：删除<img>标签相关逻辑
           return `
             <div class="card">
               <h4>${ev.name}</h4>

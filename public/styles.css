@@ -11,14 +11,12 @@ body {
   line-height: 1.6;
 }
 
-/* 容器：居中布局 */
 .container {
   max-width: 1200px;
   margin: 20px auto;
   padding: 0 20px;
 }
 
-/* 卡片样式：活动、导航、板块通用 */
 .card {
   background: white;
   border-radius: 8px;
@@ -28,17 +26,13 @@ body {
 }
 
 #nav-area {
-  /* 醒目主色：选用高饱和度蓝色（视觉冲击力强，且符合公益类网站调性） */
   background: #2563eb; 
-  /* 增加底部阴影，让导航栏从页面中"浮起来"，更显眼 */
   box-shadow: 0 2px 8px rgba(0, 0, 0, 0.2); 
   color: white;
-  /* 适当增加上下内边距，让导航栏更饱满，避免过于紧凑 */
   padding: 18px 0; 
-  /* 固定在顶部，滚动时也能看到，强化导航存在感 */
   position: sticky; 
   top: 0;
-  z-index: 999; /* 确保导航栏在最上层，不被其他内容遮挡 */
+  z-index: 999; 
 }
 
 .nav-container {
@@ -50,32 +44,28 @@ body {
   align-items: center;
 }
 
-/* 导航标题：加粗放大，突出品牌感 */
 .nav-logo h3 {
-  font-size: 22px; /* 比默认字体大，更醒目 */
-  font-weight: 700; /* 加粗 */
-  letter-spacing: 0.5px; /* 轻微拉开字母间距，提升精致感 */
+  font-size: 22px; 
+  font-weight: 700; 
+  letter-spacing: 0.5px; 
 }
 
-/* 导航链接： hover时强化反馈，让交互更明显 */
 .nav-links a {
   color: white;
   text-decoration: none;
-  margin-left: 25px; /* 增加链接间距，避免拥挤 */
-  font-size: 15px; /* 放大字体，提升可读性 */
-  font-weight: 500; /* 轻微加粗，比普通文本醒目 */
-  transition: all 0.2s ease; /* 增加过渡效果，交互更流畅 */
+  margin-left: 25px;
+  font-size: 15px; 
+  font-weight: 500; 
+  transition: all 0.2s ease; 
 }
 
-/* 鼠标 hover 链接时：背景+颜色变化，反馈更强烈 */
 .nav-links a:hover {
-  text-decoration: none; /* 取消默认下划线，改用背景色突出 */
-  background: rgba(255, 255, 255, 0.2); /* 白色半透明背景 */
-  padding: 6px 12px; /* 增加内边距，形成"按钮感" */
-  border-radius: 4px; /* 圆角优化，更柔和 */
+  text-decoration: none; 
+  background: rgba(255, 255, 255, 0.2); 
+  padding: 6px 12px; 
+  border-radius: 4px; 
 }
 
-/* 活动列表样式 */
 .event-list {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
@@ -101,7 +91,6 @@ body {
   margin-bottom: 10px;
 }
 
-/* 按钮和徽章样式 */
 .btn {
   display: inline-block;
   background: #3498db;
@@ -127,7 +116,6 @@ body {
   margin-right: 10px;
 }
 
-/* 详情页样式 */
 .event-detail {
   max-width: 800px;
   margin: 0 auto;
@@ -152,7 +140,6 @@ body {
   margin: 8px 0;
 }
 
-/* 页脚样式 */
 .footer {
   text-align: center;
   color: #666;

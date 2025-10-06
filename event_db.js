@@ -1,14 +1,12 @@
 const mysql = require('mysql2');
 
-// 数据库配置（替换为你的本地信息）
 const connection = mysql.createConnection({
   host: 'localhost',
   user: 'root',
-  password: 'l13930084448',  // 你的MySQL密码
+  password: 'l13930084448',  
   database: 'charityevents_db'
 });
 
-// 连接数据库
 connection.connect((err) => {
   if (err) {
     console.error('❌ 数据库连接失败:', err.stack);
@@ -17,7 +15,6 @@ connection.connect((err) => {
   console.log('✅ 数据库连接成功，ID:', connection.threadId);
 });
 
-// 1. 获取活动（接收2个参数：isUpcoming筛选条件 + callback回调）
 exports.getEvents = (isUpcoming, callback) => {
   let sql = `
     SELECT 
@@ -39,11 +36,9 @@ exports.getEvents = (isUpcoming, callback) => {
   `;
   const params = [];
 
-  // 若筛选“即将到来”的活动，添加时间条件
   if (isUpcoming) {
     sql += ' WHERE e.start_datetime > NOW()';
   }
-  // 按开始时间升序排序
   sql += ' ORDER BY e.start_datetime ASC';
 
   connection.query(sql, params, (err, results) => {
@@ -52,7 +47,6 @@ exports.getEvents = (isUpcoming, callback) => {
   });
 };
 
-// 2. 获取活动详情（接收2个参数：eventId + callback）
 exports.getEventById = (eventId, callback) => {
   const sql = `
     SELECT 
@@ -85,7 +79,6 @@ exports.getEventById = (eventId, callback) => {
   });
 };
 
-// 3. 搜索活动（接收2个参数：filters + callback）
 exports.searchEvents = (filters, callback) => {
   let sql = `
     SELECT 
@@ -103,7 +96,6 @@ exports.searchEvents = (filters, callback) => {
   `;
   const params = [];
 
-  // 动态拼接筛选条件
   if (filters.date) {
     sql += ' AND DATE(e.start_datetime) = ?';
     params.push(filters.date);
