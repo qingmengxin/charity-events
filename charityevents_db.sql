@@ -103,3 +103,18 @@ VALUES
  '2026-03-12 09:00:00', '2026-03-13 17:00:00', 
  'Tech Innovation Center', 'Kuala Lumpur', 
  0.00, 120, 95, 15000.00, 9800.00, 'active', 'Open to youth aged 12-18; pre-book via event website')
+
+ SELECT 
+  e.event_id,
+  e.name AS event_name,
+  c.name AS category_name,
+  o.name AS organisation_name,
+  e.city,
+  e.start_datetime,
+  e.goal_amount,
+  e.raised_amount,
+  e.status
+FROM events e
+INNER JOIN categories c ON e.category_id = c.category_id
+INNER JOIN organisations o ON e.org_id = o.org_id
+ORDER BY e.start_datetime;
